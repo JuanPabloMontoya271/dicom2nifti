@@ -10,6 +10,22 @@ gdcmconv_path = None
 resample = False
 resample_padding = 0
 resample_spline_interpolation_order = 0  # spline interpolation order (0 nn , 1 bilinear, 3 cubic)
+dumps = False
+
+def disable_dumps():
+    """
+    This will return an instance of the image without dumping the file
+    """
+    global dumps
+    dumps = False
+
+
+def enable_dumps():
+    """
+    This will return an dump the conversion to a nifti file
+    """
+    global dumps
+    dumps = True
 
 
 def disable_validate_slice_increment():

@@ -91,7 +91,7 @@ def dicom_to_nifti(dicom_input, output_file):
         common.set_tr_te(nii_image, float(dicom_input[0].RepetitionTime), float(dicom_input[0].EchoTime))
 
     # Save to disk
-    if output_file is not None:
+    if output_file is not None and settings.dumps:
         logger.info('Saving nifti to disk %s' % output_file)
         nii_image.header.set_slope_inter(1, 0)
         nii_image.header.set_xyzt_units(2)  # set units for xyz (leave t as unknown)

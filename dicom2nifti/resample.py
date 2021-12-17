@@ -8,7 +8,7 @@ import nibabel
 import nibabel.affines
 import numpy
 import scipy.ndimage
-
+import dicom2nifti.settings as settings
 from dicom2nifti.common import get_nifti_data
 from dicom2nifti import settings
 
@@ -21,7 +21,8 @@ def resample_single_nifti(input_image, output_nifti):
     output_image = resample_nifti_images([input_image])
     output_image.header.set_slope_inter(1, 0)
     output_image.header.set_xyzt_units(2)  # set units for xyz (leave t as unknown)
-    output_image.to_filename(output_nifti)
+    if settings.dumps:
+        output_image.to_filename(output_nifti)
     return output_image
 
 

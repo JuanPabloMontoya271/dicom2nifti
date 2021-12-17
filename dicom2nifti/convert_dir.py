@@ -18,7 +18,7 @@ import logging
 
 import dicom2nifti.common as common
 import dicom2nifti.convert_dicom as convert_dicom
-import dicom2nifti.settings
+import dicom2nifti.settings 
 
 logger = logging.getLogger(__name__)
 
@@ -84,8 +84,11 @@ def convert_directory(dicom_directory, output_folder, compression=True, reorient
                 nifti_file = os.path.join(output_folder, base_filename + '.nii.gz')
             else:
                 nifti_file = os.path.join(output_folder, base_filename + '.nii')
-            convert_dicom.dicom_array_to_nifti(dicom_input, nifti_file, reorient)
+            
+            result = convert_dicom.dicom_array_to_nifti(dicom_input, nifti_file, dicom2nifti.settings.dumps, reorient )
             gc.collect()
+            return result if not dicom2nifti.settings.dumps else None
+
         except:  # Explicitly capturing app exceptions here to be able to continue processing
             logger.info("Unable to convert: %s" % base_filename)
             traceback.print_exc()

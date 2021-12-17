@@ -22,7 +22,7 @@ from dicom2nifti.exceptions import ConversionError, ConversionValidationError
 pydicom_config.enforce_valid_values = False
 logger = logging.getLogger(__name__)
 
-def dicom_to_nifti(dicom_input, output_file=None):
+def dicom_to_nifti(dicom_input,  output_file=None):
     """
     This is the main dicom to nifti conversion fuction for philips images.
     As input philips images are required. It will then determine the type of images and do the correct conversion
@@ -249,7 +249,7 @@ def _multiframe_to_nifti(dicom_input, output_file):
                      float(first_frame[0x2005, 0x140f][0].EchoTime))
 
     # Save to disk
-    if output_file is not None:
+    if output_file is not None and settings.dumps:
         logger.info('Saving nifti to disk %s' % output_file)
         nii_image.header.set_slope_inter(1, 0)
         nii_image.header.set_xyzt_units(2)  # set units for xyz (leave t as unknown)
@@ -299,7 +299,7 @@ def _singleframe_to_nifti(grouped_dicoms, output_file):
     nii_image = nibabel.Nifti1Image(full_block, affine)
     common.set_tr_te(nii_image, float(grouped_dicoms[0][0].RepetitionTime), float(grouped_dicoms[0][0].EchoTime))
 
-    if output_file is not None:
+    if output_file is not None and settings.dumps:
         # Save to disk
         logger.info('Saving nifti to disk %s' % output_file)
         nii_image.header.set_slope_inter(1, 0)

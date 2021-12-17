@@ -85,7 +85,7 @@ def dicom_series_to_nifti(original_dicom_directory, output_file=None, reorient_n
         shutil.rmtree(temp_directory)
 
 
-def dicom_array_to_nifti(dicom_list, output_file, reorient_nifti=True):
+def dicom_array_to_nifti(dicom_list, output_file, dumps, reorient_nifti=True):
     """ Converts dicom single series (see pydicom) to nifty, mimicking SPM
 
     Examples: See unit test
@@ -115,15 +115,15 @@ def dicom_array_to_nifti(dicom_list, output_file, reorient_nifti=True):
     vendor = _get_vendor(dicom_list)
 
     if vendor == Vendor.GENERIC:
-        results = convert_generic.dicom_to_nifti(dicom_list, output_file)
+        results = convert_generic.dicom_to_nifti(dicom_list,  output_file)
     elif vendor == Vendor.SIEMENS:
-        results = convert_siemens.dicom_to_nifti(dicom_list, output_file)
+        results = convert_siemens.dicom_to_nifti(dicom_list,  output_file )
     elif vendor == Vendor.GE:
-        results = convert_ge.dicom_to_nifti(dicom_list, output_file)
+        results = convert_ge.dicom_to_nifti(dicom_list,  output_file)
     elif vendor == Vendor.PHILIPS:
         results = convert_philips.dicom_to_nifti(dicom_list, output_file)
-    elif vendor == Vendor.HITACHI:
-        results = convert_hitachi.dicom_to_nifti(dicom_list, output_file)
+    # elif vendor == Vendor.HITACHI:
+    #     results = convert_hitachi.dicom_to_nifti(dicom_list, dumps, output_file)
     else:
         raise ConversionValidationError("UNSUPPORTED_DATA")
 

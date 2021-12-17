@@ -18,7 +18,7 @@ from pydicom.tag import Tag
 
 import dicom2nifti.common as common
 import dicom2nifti.convert_generic as convert_generic
-
+import dicom2nifti.settings as settings
 logger = logging.getLogger(__name__)
 
 
@@ -51,7 +51,7 @@ def dicom_to_nifti(dicom_input, output_file=None):
         return _4d_to_nifti(grouped_dicoms, output_file)
 
     logger.info('Assuming anatomical data')
-    return convert_generic.dicom_to_nifti(dicom_input, output_file)
+    return convert_generic.dicom_to_nifti(dicom_input,  output_file)
 
 
 def _is_4d(grouped_dicoms):
@@ -110,7 +110,7 @@ def _4d_to_nifti(grouped_dicoms, output_file):
                      float(grouped_dicoms[0][0].EchoTime))
     logger.info('Saving nifti to disk %s' % output_file)
     # Save to disk
-    if output_file is not None:
+    if output_file is not None and settings.dumps:
         nii_image.header.set_slope_inter(1, 0)
         nii_image.header.set_xyzt_units(2)  # set units for xyz (leave t as unknown)
         nii_image.to_filename(output_file)

@@ -14,6 +14,7 @@ import numpy
 
 from pydicom.tag import Tag
 
+import dicom2nifti.settings as settings
 import dicom2nifti.common as common
 import dicom2nifti.convert_generic as convert_generic
 from dicom2nifti.exceptions import ConversionValidationError, ConversionError
@@ -36,7 +37,7 @@ class MosaicType(object):
 # pylint: enable=w0232, r0903
 
 
-def dicom_to_nifti(dicom_input, output_file=None):
+def dicom_to_nifti(dicom_input, dumps, output_file=None):
     """
     This is the main dicom to nifti conversion function for ge images.
     As input ge images are required. It will then determine the type of images and do the correct conversion
@@ -70,7 +71,7 @@ def dicom_to_nifti(dicom_input, output_file=None):
         return _classic_4d_to_nifti(grouped_dicoms, output_file)
 
     logger.info('Assuming anatomical data')
-    return convert_generic.dicom_to_nifti(dicom_input, output_file)
+    return convert_generic.dicom_to_nifti(dicom_input,  settings.dumps, output_file)
 
 
 def _is_mosaic(dicom_input):
@@ -228,7 +229,7 @@ def _classic_4d_to_nifti(grouped_dicoms, output_file):
         logger.info('Creating bval en bvec')
         bval_file = None
         bvec_file = None
-        if output_file is not None:
+        if output_file is not None and dumps:
             base_path = os.path.dirname(output_file)
             base_name = os.path.splitext(os.path.splitext(os.path.basename(output_file))[0])[0]
             logger.info('Creating bval en bvec files')
