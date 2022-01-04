@@ -11,6 +11,7 @@ resample = False
 resample_padding = 0
 resample_spline_interpolation_order = 0  # spline interpolation order (0 nn , 1 bilinear, 3 cubic)
 dumps = False
+force_convert = True
 
 def disable_dumps():
     """
@@ -19,6 +20,12 @@ def disable_dumps():
     global dumps
     dumps = False
 
+def disable_force_convert():
+    """
+    This will return an instance of the image without dumping the file
+    """
+    global force_convert
+    force_convert = False
 
 def enable_dumps():
     """

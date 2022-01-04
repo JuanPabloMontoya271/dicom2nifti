@@ -662,7 +662,9 @@ def validate_slice_increment(dicoms):
             if 'InstanceNumber' in dicom_:
                 logger.warning('Instance Number: %s' % dicom_.InstanceNumber)
             logger.warning('---------------------------------------------------------')
-            raise ConversionValidationError('SLICE_INCREMENT_INCONSISTENT')
+            if not dicom2nifti.settings.force_convert:
+                raise ConversionValidationError('SLICE_INCREMENT_INCONSISTENT')
+                
         previous_image_position = current_image_position
 
 
